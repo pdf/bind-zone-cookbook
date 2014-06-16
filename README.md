@@ -1,4 +1,4 @@
-# bind-lwrp
+# bind-zone
 
 Installs and configures the bind DNS server, and provides a flexible LWRP for
 generating zone files.
@@ -18,7 +18,7 @@ welcome!
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['bind-lwrp']['bacon']</tt></td>
+    <td><tt>['bind-zone']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -27,14 +27,14 @@ welcome!
 
 ## Usage
 
-### bind-lwrp::default
+### bind-zone::default
 
-Include `bind-lwrp` in your node's `run_list`:
+Include `bind-zone` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[bind-lwrp::default]"
+    "recipe[bind-zone::default]"
   ]
 }
 ```

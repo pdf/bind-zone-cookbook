@@ -1,4 +1,4 @@
-name             'bind-lwrp'
+name             'bind-zone'
 maintainer       'Peter Fern'
 maintainer_email 'ruby@0xc0dedbad.com'
 license          'MIT'

@@ -1,3 +1,3 @@
 # 0.0.1
 
-Initial release of bind-lwrp
+Initial release of bind-zone

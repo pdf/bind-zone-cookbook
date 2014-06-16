@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: bind-lwrp
+# Cookbook Name:: bind-zone
 # Recipe:: default
 #
 # Copyright (c) 2014 Peter Fern
@@ -22,3 +22,52 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
+
+package "bind#{node[:bind][:version]}" do
+  action :install
+end
+
+directory node[:bind][:zone_path] do
+  owner 'root'
+  group node[:bind][:group]
+  mode 00750
+  action :create
+end
+
+directory node[:bind][:config_path] do
+  owner 'root'
+  group node[:bind][:group]
+  mode 00750
+  action :create
+end
+
+service "bind" do
+  service_name "bind#{node[:bind][:version]}"
+  supports :status => true, :reload => true, :restart => true
+  action [:enable]
+end
+
+template node[:bind][:local_file] do
+  source 'named.conf.local.erb'
+
+  variables({
+    :zones => node[:bind][:serials].keys.sort,
+    :config_path => node[:bind][:config_path],
+  })
+  notifies :restart, 'service[bind]'
+  action :create
+end
+
+template node[:bind][:options_file] do
+  source 'named.conf.options.erb'
+
+  helpers(BindZone::Helpers)
+
+  variables({
+    :options => node[:bind][:options],
+    :log_file => node[:bind][:log_file],
+    :cache_path => node[:bind][:cache_path],
+  })
+  notifies :restart, 'service[bind]'
+  action :create
+end
