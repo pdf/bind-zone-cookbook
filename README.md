@@ -1,7 +1,7 @@
 # bind-zone
 
 Installs and configures the bind DNS server, and provides a flexible LWRP for
-generating zone files.
+generating zone files. This is not quite ready for prime-time.
 
 ## Supported Platforms
 
@@ -10,20 +10,7 @@ welcome!
 
 ## Attributes
 
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['bind-zone']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+TODO
 
 ## Usage
 
@@ -38,6 +25,8 @@ Include `bind-zone` in your node's `run_list`:
   ]
 }
 ```
+
+TODO
 
 ## Contributing
 
