@@ -27,6 +27,13 @@ package "bind#{node[:bind][:version]}" do
   action :install
 end
 
+directory ::File.dirname(node[:bind][:log_file]) do
+  owner 'bind'
+  group 'bind'
+  mode 00750
+  action :create
+end
+
 directory node[:bind][:zone_path] do
   owner 'root'
   group node[:bind][:group]
