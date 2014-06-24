@@ -9,5 +9,5 @@
 $ORIGIN <%= @resource.domain %>.
 
 <%- @records.each do |record| -%>
-  <%= record[:name] %>  <%= record[:ttl] %>  IN  <%= record[:type] %>  <%= record[:priority] %>  <%= record[:value] %>
+<%=   record[:name] %>  <%= record[:ttl] %>  IN  <%= record[:type] %>  <%= record[:priority] %>  <%= record[:value] %>
 <%- end -%>
