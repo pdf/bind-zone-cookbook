@@ -116,8 +116,11 @@ action :create do
   records.uniq!
   records.sort!{ |a, b| [a[:name], a[:type], a[:priority], a[:value]] <=> [b[:name], b[:type], b[:priority], b[:value]] }
 
+  # Underscored domain since periods may be path separators
+  underscored_domain = @new_resource.domain.gsub(/\./, '_')
+
   # Generate initial serial
-  node.set_unless[:bind][:serials][@new_resource.domain] = Time.now.strftime('%Y%m%d') + '00'
+  node.set_unless[:bind][:serials][underscored_domain] = Time.now.strftime('%Y%m%d') + '00'
 
   config_file = ::File.join(node[:bind][:config_path], '%s.conf' % [@new_resource.domain])
   zone_file = ::File.join(node[:bind][:zone_path], 'db.%s' % [@new_resource.domain])
@@ -161,7 +164,7 @@ action :create do
     group node[:bind][:group]
     mode 00640
     variables(
-      :serial => node[:bind][:serials][new_resource.domain],
+      :serial => node[:bind][:serials][underscored_domain],
       :resource => new_resource,
       :zone_file_records => zone_file_records,
     )
@@ -175,13 +178,13 @@ action :create do
       update = false
       date = Time.now.strftime('%Y%m%d')
       new_serial = date
-      old_serial = node[:bind][:serials][new_resource.domain]
+      old_serial = node[:bind][:serials][underscored_domain]
       if match = %r{^#{date}([0-9]{2})$}.match(old_serial)
         new_serial += '%02d' % [match[-1].to_i + 1]
       else
         new_serial += '00'
       end
-      node.set[:bind][:serials][new_resource.domain] = new_serial
+      node.set[:bind][:serials][underscored_domain] = new_serial
     end
 
     action :nothing

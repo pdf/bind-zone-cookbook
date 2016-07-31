@@ -55,10 +55,12 @@ service "bind" do
 end
 
 template node[:bind][:local_file] do
-  source 'named.conf.local.erb'
+  # Convert underscored domain back to period-separated
+  domains = node[:bind][:serials].keys.map{|k| k.gsub(/_/, '.')}.sort
 
+  source 'named.conf.local.erb'
   variables({
-    :zones => node[:bind][:serials].keys.sort,
+    :zones => domains,
     :config_path => node[:bind][:config_path],
   })
   notifies :restart, 'service[bind]'
